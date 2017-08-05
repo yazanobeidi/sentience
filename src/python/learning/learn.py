@@ -9,9 +9,9 @@
 # :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 # :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 #
-#	Copyright 2017, Yazan Obeidi
+#   Copyright 2017, Yazan Obeidi
 #
-#	python.learning.learn - single interface for learning
+#   python.learning.learn - single interface for learning
 #
 
 __author__ = 'yazan'
@@ -19,12 +19,12 @@ __version__ = '0.0.1'
 __licence__ = 'Apache V2'
 
 class Trainer(object):
-	"""Consumes data/dataset in streamable or batch format
-		and trains a single model in the available catalogue.
-	"""
-	def __init__(self):
-		pass
+    """Consumes data/dataset in streamable or batch format
+        and trains a single model in the available catalogue.
+    """
+    def __init__(self):
+        pass
 
 
 if __name__ = '__main__':
-	pass
+    pass

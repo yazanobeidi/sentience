@@ -9,9 +9,9 @@
 # :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 # :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 #
-#	Copyright 2017, Yazan Obeidi
+#   Copyright 2017, Yazan Obeidi
 #
-#	python.mind.level_zero.main - L0 init
+#   python.mind.level_zero.main - L0 init
 #
 
 __author__ = 'yazan'
@@ -20,4 +20,4 @@ __licence__ = 'Apache V2'
 
 
 if __name__ = '__main__':
-	pass
+    pass

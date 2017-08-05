@@ -9,9 +9,9 @@
 # :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 # :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 #
-#	Copyright 2017, Yazan Obeidi
+#   Copyright 2017, Yazan Obeidi
 #
-#	python.utils.config 
+#   python.utils.config 
 #
 
 import configparser
@@ -21,6 +21,6 @@ __version__ = '0.0.1'
 __licence__ = 'Apache V2'
 
 def init_config(config_file="/opt/config/config.cfg"):
-	config = configparser.ConfigParser()
-	config.read(config_file)
-	return config
+    config = configparser.ConfigParser()
+    config.read(config_file)
+    return config
