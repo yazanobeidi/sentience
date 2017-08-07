@@ -1,3 +1,6 @@
-[submodule "libfoo"]
+[submodule "zookeeper-docker"]
     path = zookeeper/zookeeper-docker
     url = git@github.com:yazanobeidi/zookeeper-docker.git
+[submodule "kafka-docker"]
+    path = kafka/kafka-docker
+    url = git@github.com:wurstmeister/kafka-docker.git
