@@ -1,0 +1,3 @@
+[submodule "libfoo"]
+    path = zookeeper/zookeeper-docker
+    url = git@github.com:yazanobeidi/zookeeper-docker.git
