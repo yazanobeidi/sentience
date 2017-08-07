@@ -11,19 +11,13 @@
 #
 #   Copyright Yazan Obeidi, 2017
 #
-#   python.learning.meta_learn - single interface for meta learning
+#   interactor Docker file
 #
 
-__author__ = 'yazan'
-__version__ = '0.0.1'
-__licence__ = 'Apache V2'
+# Fetch base image
+FROM sentience_sentience-base:latest
 
-class MetaTrainer(object):
-    """Consumes data/dataset in streamable or batch format
-        and trains on a subset of all possible models to find optimal.
-    """
-    def __init__(self):
-        pass
+# Copy configuration to existing directory
+COPY config $SENTIENCE_CONFIG_DIR
 
-if __name__ = '__main__':
-    pass
+#ENTRYPOINT ["python /sentience/interactor/python/main.py"]

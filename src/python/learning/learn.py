@@ -9,10 +9,14 @@
 # :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 # :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 #
-#   Copyright 2017, Yazan Obeidi
+#   Copyright Yazan Obeidi, 2017
 #
 #   python.learning.learn - single interface for learning
 #
+
+from src.python.utils.log import init_log
+from src.python.utils.config import init_config
+from src.python.learning.models import Model
 
 __author__ = 'yazan'
 __version__ = '0.0.1'
@@ -22,9 +26,25 @@ class Trainer(object):
     """Consumes data/dataset in streamable or batch format
         and trains a single model in the available catalogue.
     """
-    def __init__(self):
+    def __init__(self, log, config, model_handle, model_schema):
+        """:params:
+            model_handle: a model object, i.e. a RandomForest clf handler
+            model_schema: reference to the library for that model, i.e. sklearn
+        """
+        self.log = log
+        self.config = config
+        self.model = model_handle
+        self.schema = model_schema
+
+    def train(self):
+        pass
+
+    @property
+    def score(self):
         pass
 
 
 if __name__ = '__main__':
-    pass
+    log = init_log()
+    config = init_config()
+    trainer = Trainer(log=log, config=config)

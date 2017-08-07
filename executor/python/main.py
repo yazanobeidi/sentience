@@ -9,15 +9,22 @@
 # :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 # :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 #
-#   Copyright 2017, Yazan Obeidi
+#   Copyright Yazan Obeidi, 2017
 #
-#   python.mind.level_zero.main - L0 init
+#   executor.python.main - init
 #
+
+from src.python.utils.log import init_log
+from src.python.utils.config import init_config
 
 __author__ = 'yazan'
 __version__ = '0.0.1'
 __licence__ = 'Apache V2'
 
 
-if __name__ = '__main__':
+def test_model():
+    log = init_log()
+    config = init_config()
+
+if __name__ = "__main__":
     pass

@@ -11,19 +11,22 @@
 #
 #   Copyright Yazan Obeidi, 2017
 #
-#   python.learning.meta_learn - single interface for meta learning
+#   python.learning.tests - test learning module
 #
+
+from src.python.learning.learn import Trainer
+from src.python.learning.meta_learn import MetaTrainer
+from src.python.utils.log import init_log
+from src.python.utils.config import init_config
 
 __author__ = 'yazan'
 __version__ = '0.0.1'
 __licence__ = 'Apache V2'
 
-class MetaTrainer(object):
-    """Consumes data/dataset in streamable or batch format
-        and trains on a subset of all possible models to find optimal.
-    """
-    def __init__(self):
-        pass
 
-if __name__ = '__main__':
+def test_model():
+    log = init_log()
+    config = init_config()
+
+if __name__ = "__main__":
     pass
