@@ -14,17 +14,13 @@
 #   executor.python.main - init
 #
 
-from src.python.utils.log import init_log
-from src.python.utils.config import init_config
+from src.python.utils.boilerplate import init_config_and_log
+
 
 __author__ = 'yazan'
 __version__ = '0.0.1'
-__licence__ = 'Apache V2'
-
-
-def test_model():
-    log = init_log()
-    config = init_config()
+__licence__ = 'Apache V2'    
 
 if __name__ = "__main__":
-    pass
+    config, log = init_config_and_log(name="interactor")
+    log.info("Starting Executor")

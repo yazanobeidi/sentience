@@ -36,6 +36,10 @@ b) ![Git](https://git-scm.com/downloads)
 
 `$ cd .. && rm -rf sentience`
 
+## Notes
+
+`python3.6 -m pip` must be used to access pip for Python3.6, as python3.6-pip is not presently packaged with python3.6 in Ubuntu:trusty.
+
 ## Author
 
 Yazan Obeidi

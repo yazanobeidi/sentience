@@ -20,3 +20,4 @@ FROM sentience_sentience-base:latest
 # Copy configuration to existing directory
 COPY config $SENTIENCE_CONFIG_DIR
 
+ENTRYPOINT ["/sentience/executor/init.sh"]

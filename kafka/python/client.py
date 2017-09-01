@@ -11,15 +11,17 @@
 #
 #   Copyright Yazan Obeidi, 2017
 #
-#   interactor.python.main - init
+#   kafka.python.client - Kafka wrapper for Python
 #
-
-from src.python.utils.boilerplate import init_config_and_log
 
 __author__ = 'yazan'
 __version__ = '0.0.1'
 __licence__ = 'Apache V2'
 
-if __name__ == "__main__":
-    config, log = init_config_and_log(name="interactor")
-    log.info("Starting Interactor")
+class Producer(object):
+    pass
+
+
+
+if __name__ = "__main__":
+    pass
