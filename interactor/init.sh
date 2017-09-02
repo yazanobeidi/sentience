@@ -12,9 +12,11 @@
 #
 #   Copyright Yazan Obeidi, 2017
 #
-#   interactor.python.main - init
+#   interactor.python.main - init script
 #
 
+# Broadcast state to console
 echo "Initializing sentience.interactor.main"
 
+# Initialize Interactor
 python3.6 /sentience/interactor/python/main.py

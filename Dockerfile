@@ -22,7 +22,7 @@ MAINTAINER Yazan Obeidi
 # Update package manager and install dependencies
 RUN apt-get update && apt-get install -y \
     python3.6 \ 
-    python3-pip
+    python3-pip # unfortunately does not point to python3.6, will install 3.5
     
 # Create project directory
 RUN mkdir /sentience
@@ -49,7 +49,9 @@ ENV SENTIENCE_CONFIG_DIR=/etc/sentience/config
 COPY config $SENTIENCE_CONFIG_DIR
 
 # Install Python requirements
-RUN pip3 install -r $SENTIENCE_CONFIG_DIR/base_requirements.txt
+# NOTE need to use "python3.6 -m pip" instead of pip3.6 install ... 
+# because pip3.6 is not presently included in ubuntu:zesty
+RUN python3.6 -m pip install -r $SENTIENCE_CONFIG_DIR/base_requirements.txt
 
 # Create log directory
 RUN mkdir -p /var/sentience/log

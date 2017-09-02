@@ -15,6 +15,8 @@
 #   executor.python.main - init
 #
 
+# Broadcast state to console
 echo "Initializing sentience.executor.main"
 
+# Initialize Executor
 python3.6 /sentience/executor/python/main.py
