@@ -9,9 +9,9 @@ _Sentience_ attempts to solve the problem of problem solving by learning its own
 
 Several simultaneous mechanisms support Meta Learning: 
 
-1. An evolutionary network-in-a-network(-in-a-network...) design to facilitate reinforcement learning through indirect coupling between all learning systems. Each sub-system is decoupled as a microservice and communicates using a messaging protocol. Apache Kafka is presently used. Each sub-system is sufficient so that it may carry out its own functionality independent of other sub-systems. However feedback and a type of entanglement between subsystems does occur as part of normal system behaviour, forming a sort of quasi-dependency with an indeterminate causality. For example, Sentience may have executive capacity greater than its present ability for normal human communication. Its executive capacity with not be reduced due to lagging communication skills; they may only be enhanced by ideal communication acting as a catalyst for training executive functionality.
+1. An evolutionary network-in-a-network(-in-a-network...) design to facilitate reinforcement learning through indirect coupling between all learning systems. Each sub-system is decoupled as a microservice and communicates using a messaging protocol. Apache Kafka is presently used. Each sub-system is sufficient so that it may carry out its own functionality independent of other sub-systems. However feedback and a type of entanglement between subsystems does occur as part of normal system behaviour, forming a sort of quasi-dependency with an indeterminate causality. For example, Sentience may have executive capacity greater than its present ability for normal human communication. By design the executive capacity will not be reduced due to lagging communication skills; they may only be enhanced by ideal communication, catalyzing the training of executive functionality.
 
-2. Application of Neural Turing Machines (NTM) to provide learned representational memory to drive Meta Learning processes. As usual this process is regularized to prefer simpler representations. This memory provides short term and long term access and is the only place where state information is persisted in the system. This memory differs from the weights in a machine learning model in that memory cells within a NTM may define algorithmic functionality such as copying and sorting at its most basic level. This contrasts with simply modifying the output of a classifier by updating its undelying weights.
+2. Application of Neural Turing Machines (NTM) to provide learned representational memory to drive Meta Learning processes. This process is regularized to prefer simpler representations. NTM memory provides short term and long term access and is the only place where state information is persisted in the system. This memory differs from the weights in a machine learning model in that memory cells within a NTM may define algorithmic functionality such as copying and sorting at its most basic level. This contrasts with simply modifying the output of a classifier by updating its underlying weights.
 
 3. A dictionary of models and hyperparameters with an ability to retrieve the most suitable architecture based on past experiences. A tunable number of candidate models are evaluated in a non-blocking fashion such that new optimal architectures may be identified. This may occur for a number of reasons including changing data, or a new model is evaluated which was not considered previously. Models currently are used from Scikit-Learn and Tensorflow. Pre-trained models, preset archicturectures, and learned architectures are all considered.
 
@@ -24,9 +24,12 @@ Several simultaneous mechanisms support Meta Learning:
 
 ### Prerequisites:
 
-a) [Docker](https://www.docker.com/get-docker#h_installation)
-b) [Compose](https://docs.docker.com/compose/install/)
-b) [Git](https://git-scm.com/downloads)
+a) [Docker](https://www.docker.com/get-docker#h_installation)  
+
+b) [Compose](https://docs.docker.com/compose/install/)  
+
+b) [Git](https://git-scm.com/downloads)  
+
 
 ### Steps:
 
@@ -42,12 +45,17 @@ b) [Git](https://git-scm.com/downloads)
 
 ### Uninstall:
 
-1. Remove Docker images
+1. Remove Docker images: 
+
 `$ docker-compose down --rmi all`
 
 2. Delete copy of repository:
 
 `$ cd .. && rm -rf sentience`
+
+## Disclaimer
+
+This project does not attempt to make the claim that strong AI is actually possible or not. What this project does is try to emulate intelligent behaviour using present state-of-the-art tools in the field. 
 
 ## Notes
 

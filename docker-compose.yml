@@ -15,24 +15,26 @@
 #
 version: '3.3'
 services:
-    sentience-base:
-        build:  .
     kafka:
         build: ./kafka/docker-kafka/kafka/
         ports:
           - "2181:2181"
           - "9092:9092"
+    sentience-base:
+        build:  .
+        depends_on:
+          - kafka
+        volumes:
+          - /home/yazan/Projects/sentience:/sentience
     executor:
         build: ./executor/
         depends_on:
           - sentience-base
-          - kafka
         volumes:
           - /home/yazan/Projects/sentience:/sentience   
     interactor:
         build: ./interactor/
         depends_on:
           - sentience-base
-          - kafka
         volumes:
           - /home/yazan/Projects/sentience:/sentience
