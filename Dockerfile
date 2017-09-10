@@ -42,7 +42,7 @@ ENV PYTHONPATH=/sentience/:$PYTHONPATH
 # Create configuration directory
 RUN mkdir -p /etc/sentience/config
 
-# Export log directory environment variable
+# Export config directory environment variable
 ENV SENTIENCE_CONFIG_DIR=/etc/sentience/config
 
 # Copy config

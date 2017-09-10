@@ -15,8 +15,7 @@
 #
 
 from configparser import ConfigParser
-from os import path
-from os import environ
+from os import path, environ
 import glob
 
 __author__ = 'yazan'
@@ -24,6 +23,7 @@ __version__ = '0.0.1'
 __licence__ = 'Apache V2'
 
 def init_config(config_dir=None):
+    # Parse environment variables as DEFAULT configurations
     config = ConfigParser(environ)
     # If configuration directory is an ENV variable, fetch it
     if not config_dir:

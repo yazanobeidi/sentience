@@ -14,10 +14,7 @@
 #   kafka.python.client - Kafka wrapper for Python
 #
 
-import os
-import subprocess
 from pykafka import KafkaClient
-from shlex import quote
 
 __author__ = 'yazan'
 __version__ = '0.0.1'
@@ -47,50 +44,14 @@ class Kafka(object):
     def __exit__(self, type, value, traceback):
         pass
 
-    def _run_topics_sh(self, args):
-        """Run kafka-topics.sh with the provided list of arguments.
-           Taken from PyKafka source code."""
-        bin_dir = self.config.get('kafka', 'bin_dir')
-        binfile = os.path.join(bin_dir, 'bin/kafka-topics.sh')
-        zkpr = ':'.join([self.zk_ip, self.zk_port])
-        cmd = [binfile, '--zookeeper', zkpr] + args
-        cmd = ' '.join([str(c) for c in cmd]) # cmd needs to be str
-        cmd = quote(cmd) # escape cmd for safety
-        self.log.debug("running: {}".format(cmd))
-        return subprocess.check_output(cmd)
-
-    def is_topic(self, topic):
-        """Check if topic exists"""
-        topic in self.topics
-
-    def get_topic(self, topic, autocreate=True, **kwargs):
-        if not self.is_topic(topic):
-            self.log.warning("Topic not found: {}".format(topic))
-            self.make_topic(topic, **kwargs)
-        return self.topics[topic]
-
-    def make_topic(self, 
-                   topic, 
-                   partitions=3, 
-                   replication=None):
-        """Use kafka-topics.sh to create a topic."""
-        log.info("Creating topic {}".format(topic_name))
-        cmd = ['--create',
-               '--topic', topic_name,
-               '--partitions', num_partitions]
-        cmd.extend(['--replication-factor', replication_factor])
-        assert(len(cmd) == 8) # unexpected cmd size
-        self._run_topics_sh(cmd)
-        time.sleep(1)
-
-    def delete_topic(self, topic):
-        """Delete single topic by name"""
-        self.log.info("Deleting topic {}".format(topic))
-        self._run_topics_sh(['--delete', '--topic', topic_name])
-
     def list_topics(self):
-        res = self._run_topics_sh(['--list'])
-        return res.strip().split(b'\n')
+        raise NotImplementedError
+
+    def is_topic(self):
+        raise NotImplementedError
+
+    def get_topic(topic, autocreate=True, **kwargs):
+        raise NotImplementedError
 
     def purge_topics(self):
         """Delete all topics."""
