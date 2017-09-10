@@ -16,7 +16,7 @@
 version: '3.3'
 services:
     kafka:
-        build: ./kafka/docker-kafka/kafka/
+        build: ./kafka/docker-kafka/
         ports:
           - "2181:2181"
           - "9092:9092"

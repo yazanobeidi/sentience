@@ -19,21 +19,21 @@ from src.python.utils.boilerplate import init_config_and_log
 
 def run_tests(config, log):
     with Kafka(config=config, log=log) as q:
-        print("Testing ability to list topics")
+        log.info("Testing ability to list topics")
         before = q.list_topics()
         topic_name = "test_topic"
-        print("Testing ability to make a topic")
+        log.info("Testing ability to make a topic")
         q.make_topic(topic_name, 1)
         after = q.list_topics()
         assert(before != after)
-        print("Testing is_topic()")
+        log.info("Testing is_topic()")
         assert(q.is_topic(topic_name))
-        print("Testing ability to post msg")
+        log.info("Testing ability to post msg")
         msg = "test_msg"
         q.put(msg=msg, topic=topic_name)
         response = q.get(topic_name)
         assert(response)
-        print("Testing ability to delete topic")
+        log.info("Testing ability to delete topic")
         after = q.delete_topic(topic_name)
         assert(before == after)
     return True
