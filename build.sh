@@ -46,4 +46,4 @@ case $OPT in
 esac
 
 # Deploy
-docker-compose up
+docker-compose up --build

@@ -36,7 +36,6 @@ class Kafka(object):
         self.client = KafkaClient(hosts=host)
         self.config = config
         self.log = log
-        self.request_schema = "{func}:{arg}:{id}"
 
     def __enter__(self):
         return self
@@ -50,6 +49,7 @@ class Kafka(object):
 
     def request(self, function, kwargs={}):
         """Send KafkaManager request to kafka host e.g. list topics.
+        Post request to <kafka-manager-in> with randomly created ID.
         See docker-kafka/python/KafkaManager.py for more information.
         """
         # Generate the request
@@ -66,11 +66,7 @@ class Kafka(object):
                     return msg['output']
 
     def list_topics(self):
-        """Returns list of available topics.
-        Post request to <kafka-manager-in> with randomly created ID.
-        Response will be found in 
-        See docker-kafka/python/KafkaManager.py for more information.
-        """
+        """Returns list of available topics."""
         return self.request('list_topics', {})
 
     def is_topic(self, topic):
@@ -124,8 +120,7 @@ class Kafka(object):
             topic, 
             delivery_reports=False, 
             delivery_freq=0.001):
-        """Async producer with optional delivery reporting.
-        """
+        """Async producer with optional delivery reporting."""
         topic = self.client.topics[topic]
         with topic.get_producer(delivery_reports=delivery_reports) as producer:
             count = 0

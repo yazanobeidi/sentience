@@ -14,7 +14,7 @@
 #   python.utils.config 
 #
 
-from configparser import ConfigParser
+from configparser import ConfigParser, ExtendedInterpolation
 from os import path, environ
 import glob
 
@@ -24,7 +24,7 @@ __licence__ = 'Apache V2'
 
 def init_config(config_dir=None):
     # Parse environment variables as DEFAULT configurations
-    config = ConfigParser(environ)
+    config = ConfigParser(environ, interpolation=ExtendedInterpolation())
     # If configuration directory is an ENV variable, fetch it
     if not config_dir:
         config_dir = environ.get("SENTIENCE_CONFIG_DIR")
