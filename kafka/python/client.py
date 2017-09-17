@@ -15,8 +15,11 @@
 #
 
 from pykafka import KafkaClient
+from pykafka.utils.compat import get_bytes
 from json import dumps, loads
 from uuid import uuid4
+from random import getrandbits
+import queue
 
 __author__ = 'yazan'
 __version__ = '0.0.1'
@@ -55,15 +58,21 @@ class Kafka(object):
         # Generate the request
         _id = str(uuid4())
         request = self.make_request(function=function, _id=_id, kwargs=kwargs)
+        self.log.debug('POST {} to KafkaManager'.format(request))
         # Post to KafkaManager input topic
         self.put(request, 'kafka-manager-in')
-        # Process output
-        consumer = topic.get_simple_consumer()
-        for message in consumer:
+        # Process output, simple cons. so all msgs are received by all consumers
+        consumer = self.get_topic('kafka-manager-out').get_simple_consumer()
+        for i, message in enumerate(consumer):
             if message is not None:
                 msg = loads(message.value)
                 if _id == msg['id']:
+                    self.log.debug('Retrieved response: {} ({})'.format(msg, i))
                     return msg['output']
+
+    def get_topic(self, topic):
+        """Returns handle to pykafka topic instance"""
+        return self.client.topics[get_bytes(topic)]
 
     def list_topics(self):
         """Returns list of available topics."""
@@ -73,7 +82,7 @@ class Kafka(object):
         """Check if topic exists"""
         return self.request('is_topic', {'topic': str(topic)})
 
-    def make_topic(self, topic, partitions=3, replication=None):
+    def make_topic(self, topic, partitions=3, replication=1):
         """Create a topic if does not exist"""
         kwargs = {'topic': topic, 
                   'partitions': partitions, 
@@ -92,56 +101,32 @@ class Kafka(object):
 
     def get(self, 
             topic, 
-            consumer_group=None, 
-            continuous=False):
+            consumer_group=None):
         """Fetches single message or optionally generates indefinite messages.
         continuous : If True function acts like a generator.
         """
         if not consumer_group:
-            consumer_group = self.log.get('kafka', 'default_consumer_group')
-        topic = self.client.topics[topic]
-        balanced_consumer = topic.get_balanced_consumer(
-                        consumer_group=consumer_group,
+            consumer_group = self.config.get('kafka', 'default_consumer_group')
+        balanced_consumer = self.get_topic(topic).get_balanced_consumer(
+                        consumer_group=get_bytes(consumer_group),
                         auto_commit_enable=True,
-                        zookeeper_connect=':'.join([self.zk_ip, self.zk_port]))
+                        zookeeper_connect=self.zkpr)
         for message in balanced_consumer:
             if message is not None:
                 self.log.debug("Found msg @ offset {}".format(message.offset))
                 msg = message.value
+                return msg
             else:
                 self.log.warning("Found None msg in topic: {}".format(topic))
-            if not continuous: 
-                return msg # break
-            else:
-                yield msg # continue to iterate
+            
 
-    def put(self, 
-            msg, 
-            topic, 
-            delivery_reports=False, 
-            delivery_freq=0.001):
-        """Async producer with optional delivery reporting."""
-        topic = self.client.topics[topic]
-        with topic.get_producer(delivery_reports=delivery_reports) as producer:
-            count = 0
-            while True:
-                count += 1
-                producer.produce(msg, partition_key='{}'.format(count))
-                if delivery_reports:
-                    if count % (1.0 / delivery_freq) == 0:  # every 1000th one
-                        while True:
-                            try:
-                                msg, exc = producer.get_delivery_report(block=False)
-                                if exc is not None:
-                                    self.log.warning(
-                                        'Failed to deliver msg {}: {}'.format(
-                                                msg.partition_key, repr(exc)))
-                                else:
-                                    self.debug(
-                                            'Successfully delivered msg {}'.format(
-                                                        msg.partition_key))
-                            except Queue.Empty:
-                                break
+    def put(self, msg, topic):
+        """Async producer."""
+        topic = self.get_topic(topic)
+        with topic.get_producer() as producer:
+            pk = getrandbits(100) # any unique partition key will do
+            producer.produce(get_bytes(msg), partition_key=b'%i' % pk)
+
 
 if __name__ == "__main__":
     pass

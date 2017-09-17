@@ -15,8 +15,15 @@
 #
 version: '3.3'
 services:
+    kafka:
+        build: ./kafka/docker-kafka/
+        ports:
+          - "2181:2181"
+          - "9092:9092"
     sentience-base:
         build:  .
+        depends_on:
+          - kafka
     executor:
         build: ./executor/
         depends_on:
@@ -25,8 +32,3 @@ services:
         build: ./interactor/
         depends_on:
           - sentience-base
-    kafka:
-        image: ./kafka/docker-kafka/
-        ports:
-          - "2181:2181"
-          - "9092"

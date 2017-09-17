@@ -1,7 +1,7 @@
 sentience
 =========
 
-The appilication of weak AI towards highly specific and defined areas has had great recent success. However the tasks of data collection, cleansing, ingestion, modelling, evaluation, generating inferences, and updating the model with new information are all largely cumbersome manual processes, and at this point somewhat of an art rather than an exact science. Furthermore a unique learning architecture, dataset, and application must crafted for each of these specific areas.
+The application of weak AI towards highly specific and defined areas has had great recent success. However the tasks of data collection, cleansing, ingestion, modelling, evaluation, generating inferences, and updating the model with new information are all largely cumbersome manual processes, and at this point somewhat of an art rather than an exact science. Furthermore a unique learning architecture, dataset, and application must crafted for each of these specific areas.
 
 Many problems can be generalized to several core problems, for example combinatorial optimization, constraint satisfaction and search. What if instead of manually crafting a unique solution for an individual problem, if this problem solving process could be generalized and learned by the given data. In other words instead of learning weights in a pre-defined architecture, if the archicture itself could be learned, as well as the weights, and then this knowledge shared across all domains.
 

@@ -20,6 +20,8 @@ services:
         ports:
           - "2181:2181"
           - "9092:9092"
+        volumes:
+          - /home/yazan/Projects/sentience/kafka/docker-kafka/python:/opt/kafka_manager
     sentience-base:
         build:  .
         depends_on:

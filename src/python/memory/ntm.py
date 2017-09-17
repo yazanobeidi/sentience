@@ -14,3 +14,9 @@
 #   python.memory.ntm - Neural Turing Machine implementation
 #
 
+__author__ = 'yazan'
+__version__ = '0.0.1'
+__licence__ = 'Apache V2'
+
+if __name__ == "__main__":
+    pass
