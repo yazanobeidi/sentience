@@ -13,13 +13,16 @@
 #
 #   kafka.python.client - Testing methods for Kafka wrapper
 #
-from time import sleep
+import time
 
-from kafka.python.client import Kafka
+from pykafka.utils.compat import get_bytes
+
+
+from kafka.python.client import Kafka, KafkaBase
 from src.python.utils.boilerplate import init_config_and_log
 
-def run_tests(config, log):
-    with Kafka(config=config, log=log) as q:
+def test_kafka_base(config, log):
+    with KafkaBase(config=config, log=log) as q:
         log.info("1. Testing ability to list topics ---------------------------")
         before = q.list_topics()
         log.info('1. SUCCESS --------------------------------------------------')
@@ -56,11 +59,45 @@ def run_tests(config, log):
         log.info('5. SUCCESS---------------------------------------------------')
     return True
 
+def test_kafka(config, log):
+    with Kafka(config, log, producer='test_topic', consumer='test_topic') as k:
+        pass
+
+def test_kafka2(config, log):
+    with Kafka(config, log, producer='test_topic', consumer='test_topic') as k:
+        t = time.time()
+        n = 1000000
+        for i in range(n):
+            k.put('test_message')
+        d = time.time() - t
+    log.info('{} seconds, {} msg per second'.format(d, n/d))
+    i = 0
+    t = time.time()
+    for msg in k.get():
+        i += 1
+    d = time.time() - t
+    log.info('Retrieved {} messages in {} seconds, {} msg per second')
+
+
+def speed_test(config, log):
+    with Kafka(config=config, log=log) as q:
+        t = time.time()
+        n = 100
+        # for i in range(n):
+        #     q.put('test_message', 'test_topic', n)
+        topic = q.get_topic('test_topic')
+        with topic.get_producer(linger_ms=1) as producer:
+            for i in range(n):
+                producer.produce(get_bytes('test_message'), partition_key=b'%i' % i)
+        d = time.time() - t
+    log.info('{} seconds, {} msg per second'.format(d, n/d))
+
+
 
 if __name__ == '__main__':
     config, log = init_config_and_log(name="kafka-client")
     log.info("Starting kafka.python.client tests!!")
-    if run_tests(config, log):
+    if test_kafka(config, log):
         log.info("All tests success! Kafka seems to be working.")
         log.info("Ending tests.py")
     else:

@@ -11,7 +11,7 @@
 #
 #   Copyright Yazan Obeidi, 2017
 #
-#   docker compose - production
+#   docker compose - development
 #
 version: '3.3'
 services:
@@ -20,15 +20,23 @@ services:
         ports:
           - "2181:2181"
           - "9092:9092"
+        volumes:
+          - /home/yazan/Projects/sentience/kafka/docker-kafka/python:/opt/kafka_manager
     sentience-base:
         build:  .
         depends_on:
           - kafka
+        volumes:
+          - /home/yazan/Projects/sentience:/sentience
     executor:
         build: ./executor/
         depends_on:
           - sentience-base
+        volumes:
+          - /home/yazan/Projects/sentience:/sentience   
     interactor:
         build: ./interactor/
         depends_on:
           - sentience-base
+        volumes:
+          - /home/yazan/Projects/sentience:/sentience
