@@ -15,14 +15,12 @@
 #
 import time
 
-from pykafka.utils.compat import get_bytes
-
-
-from kafka.python.client import Kafka, KafkaBase
+from kafka.python.Kafka import Kafka
+from kafka.python.client import Kafka as pKafka
 from src.python.utils.boilerplate import init_config_and_log
 
 def test_kafka_base(config, log):
-    with KafkaBase(config=config, log=log) as q:
+    with Kafka(config=config, log=log) as q:
         log.info("1. Testing ability to list topics ---------------------------")
         before = q.list_topics()
         log.info('1. SUCCESS --------------------------------------------------')
@@ -59,10 +57,6 @@ def test_kafka_base(config, log):
         log.info('5. SUCCESS---------------------------------------------------')
     return True
 
-def test_kafka(config, log):
-    with Kafka(config, log, producer='test_topic', consumer='test_topic') as k:
-        pass
-
 def test_kafka2(config, log):
     with Kafka(config, log, producer='test_topic', consumer='test_topic') as k:
         t = time.time()
@@ -88,7 +82,7 @@ def speed_test(config, log):
         topic = q.get_topic('test_topic')
         with topic.get_producer(linger_ms=1) as producer:
             for i in range(n):
-                producer.produce(get_bytes('test_message'), partition_key=b'%i' % i)
+                producer.produce(b'test_message', partition_key=b'%i' % i)
         d = time.time() - t
     log.info('{} seconds, {} msg per second'.format(d, n/d))
 
@@ -97,7 +91,7 @@ def speed_test(config, log):
 if __name__ == '__main__':
     config, log = init_config_and_log(name="kafka-client")
     log.info("Starting kafka.python.client tests!!")
-    if test_kafka(config, log):
+    if test_kafka2(config, log):
         log.info("All tests success! Kafka seems to be working.")
         log.info("Ending tests.py")
     else:

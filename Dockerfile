@@ -21,8 +21,15 @@ MAINTAINER Yazan Obeidi
 
 # Update package manager and install dependencies
 RUN apt-get update && apt-get install -y \
-    python3.6 \ 
-    python3-pip # unfortunately does not point to python3.6, will install 3.5
+    apt-transport-https \
+    python3.6 \
+    python3-pip \
+    wget software-properties-common
+
+# Install confluent-kafka-python
+RUN wget -qO - https://packages.confluent.io/deb/4.0/archive.key | apt-key add -
+RUN add-apt-repository "deb [arch=amd64] https://packages.confluent.io/deb/4.0 stable main"
+RUN apt-get update && apt-get install -y confluent-platform-oss-2.11
     
 # Create project directory
 RUN mkdir /sentience
