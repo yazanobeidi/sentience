@@ -1,1 +1,1 @@
-pykafka==2.6.0
+confluent-kafka==0.11.0

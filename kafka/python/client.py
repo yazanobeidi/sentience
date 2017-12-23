@@ -11,7 +11,7 @@
 #
 #   Copyright Yazan Obeidi, 2017
 #
-#   kafka.python.client - Kafka wrapper for Python
+#   kafka.python.client - Kafka wrapper for Python -- DEPRECATED
 #
 
 from pykafka import KafkaClient

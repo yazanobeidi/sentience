@@ -34,27 +34,29 @@ class Kafka(object):
 
     Use the inherited class for faster runtime at the expense of greater memory.
     """
-    def __init__(self, config, log):
+    def __init__(self, config, log, group=None):
         """Establish connection based on config file"""
+        if group is None:
+            group = config.get('kafka','default_consumer_group')
         broker = config.get('kafka', 'gateway')
         log.debug("Initializing kafka client ({})".format(broker))
-        self.conf = {'bootstrap.servers': broker}
-        self.producer = Producer(**conf)
-        self.consumer = Consumer(**conf)
+        self.prod_conf = {'bootstrap.servers': broker}
+        self.cons_conf = {'bootstrap.servers': broker, 'group.id': group,
+                          'default.topic.config': {'auto.offset.reset': 'beginning',
+                          'enable.auto.commit': 'false'},
+                          #"debug": "cgrp,protocol,topic",
+                          "topic.metadata.refresh.interval.ms": 1000}
+        self.producer = Producer(**self.prod_conf)
+        self.consumer = Consumer(**self.cons_conf)
         self.config = config
         self.log = log
+        self.cons_topics = []
 
     def __enter__(self):
         return self
 
     def __exit__(self, type, value, traceback):
         self.consumer.close()
-        self.producer.close()
-        pass
-
-    def get_topic(self, topic):
-        """Returns handle to pykafka topic instance"""
-        return self.client.topics[get_bytes(topic)]
 
     def list_topics(self):
         """Returns list of available topics."""
@@ -97,30 +99,82 @@ class Kafka(object):
         # Post to KafkaManager input topic
         self.put(request, 'kafka-manager-in')
         # Process output, simple cons. so all msgs are received by all consumers
-        consumer = self.get_topic('kafka-manager-out').get_simple_consumer()
-        for i, message in enumerate(consumer):
-            if message is not None:
-                msg = loads(message.value)
-                if _id == msg['id']:
-                    self.log.debug('Retrieved response: {} ({})'.format(msg, i))
-                    return msg['output']
+        for msg in self.stream('kafka-manager-out', meta=True, commit=False):
+            self.log.debug('Retrieved response: {}'.format(msg.value()))
+            msg_dict = loads(msg.value())
+            if _id == msg_dict['id']:
+                self.consumer.commit()
+                return msg_dict['output']
 
-    def put(self, message, topic=None):
+    def sub(self, topic):
+        if topic not in self.cons_topics:
+            self.log.debug('Subscribing consumer to {}'.format(topic))
+            self.cons_topics.append(topic)
+            self.consumer.subscribe(self.cons_topics)
+
+    def unsub(self):
+        self.log.debug("Unassigning consumer")
+        self.consumer.unassign()
+        self.log.debug("Unsubscribing consumer")
+        self.consumer.unsubscribe()
+
+    def put(self, message, topic):
         """
         If topic is given we temporarily subscribe to that topic to post message.
         """
-        #  If topic is not given use currently subscribed producer
-        # and if topic does not match assigned producer, subscribe to it
-        pass
-
-    def messages(self, meta=False, topic=None):
+        self.producer.produce(topic, message)
+        self.producer.flush()
+        
+    def stream(self, 
+               topic, 
+               persist=False, 
+               meta=False, 
+               timeout=3, 
+               retries=15,
+               commit=True):
         """Generator object to yield continuous stream of messages.
         If meta is false, only message.value is passed.
         """
         #  If topic is not given use currently subscribed consumer
         # and if topic does not match assigned consumer, subscribe to it
-        pass
+        self.sub(topic)
+        self.log.debug('Begin polling message stream (topic: {})'.format(topic))
+        end_of_offset = False
+        while True:
+            self.log.debug("Polling ... {}".format(
+                           self.consumer.committed(
+                           self.consumer.assignment())))
+            msg = self.consumer.poll(timeout=timeout)
+            if end_of_offset:
+                if retries <= 0:
+                    break
+                else: 
+                    retries -= 1
+            if msg is None:
+                continue
+            if msg.error():
+                if msg.error().code() == KafkaError._PARTITION_EOF:
+                    # End of partition event
+                    self.log.debug('%% %s [%d] reached end at offset %d' %
+                                     (msg.topic(), msg.partition(), msg.offset()))
+                    end_of_offset = False if persist else True
+                else:
+                    self.log.error("msg.error(): KafkaException")
+                    raise KafkaException(msg.error())
+            else:
+                # Proper message
+                end_of_offset = False
+                self.log.debug('message %s [%d] at offset %d with key %s:' %
+                                 (msg.topic(), msg.partition(), msg.offset(),
+                                  str(msg.key())))
+                self.log.debug('message value: {}'.format(msg.value()))
+                if commit:
+                    self.consumer.commit()
+                yield msg if meta else msg.value()
+        self.unsub()
 
-    def get(self, meta=False, topic=None):
+    def get(self, topic, meta=False):
         """Return just one message from messages()"""
-        return self.messages(meta=meta, topic=topic).next()
+        msg = next(self.stream(meta=meta, topic=topic))
+        self.unsub()
+        return msg
