@@ -15,7 +15,7 @@
 #
 import time
 
-from kafka.python.Kafka import Kafka
+from kafka.python.kafka import Kafka
 from src.python.utils.boilerplate import init_config_and_log
 
 def test_kafka_admin(kafka, log):

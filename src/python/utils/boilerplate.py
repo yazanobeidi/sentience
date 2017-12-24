@@ -17,5 +17,8 @@
 from src.python.utils.log import init_log
 from src.python.utils.config import init_config
 
-def init_config_and_log(name):
-    return init_config(), init_log(name)
+def init_config_and_log(name=None):
+    config = init_config()
+    if not name:
+        name = config.get('log', 'context', 'unknown_context')
+    return config, init_log(name)
