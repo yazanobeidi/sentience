@@ -1,9 +1,9 @@
 sentience
 =========
 
-So far nobody has linked together the available building blocks for artificial general intelligence (AGI). These tools include Differentiable Neural Computers, Neural Programmer-Interpreters, and Deep Q-Networks. Together, a single entity that is capable of ingesting multiple types of data, audio and visual recognition, general problem solving, learning to learn, algorithm generation, creativity, and interdisciplinary knowledge integration, may be created, resulting in something sort of like in the movie Her.
+So far nobody has linked together the available building blocks for artificial general intelligence (AGI). These tools include Differentiable Neural Computers, Neural Programmer-Interpreters, General Adversarial Networks, and Deep Q-Networks. Together, a single entity that is capable of ingesting multiple types of data, audio and visual recognition, general problem solving, learning to learn, algorithm generation, creativity, and interdisciplinary knowledge integration, may be created, resulting in something sort of like in the movie Her.
 
-_Sentience_ is deployed using Docker as a microservices for each distinct aspect of the AGI:
+_Sentience_ is deployed using Docker as a microservices for each distinct unit of the AGI:
 
 1. Executor  
 
@@ -11,11 +11,13 @@ Executive functions and cognitive control. Appropriate behaviour selection and o
 
 2. Interactor  
 
-Communications and interactions with others.
+Active communication and interaction with others.
 
 3. Strategizer  
 
 Data aggregration, analysis, pattern recognition, forecasting, feeding to goal planning, definition of options, preferences, strategies, goals, contexts, and auxillary knowledge store.  
+
+An advantage of using Docker is that ensemble learning may be easily used between containers. Apache Kafka is used for messaging between microservices and is also run inside Docker.
 
 ## Installation
 
@@ -27,14 +29,13 @@ b) [Compose](https://docs.docker.com/compose/install/)
 
 b) [Git](https://git-scm.com/downloads)  
 
-
 ### Steps:
 
 1. Clone the repository:  
 
 `$ git clone https://github.com/yazanobeidi/sentience.git && cd sentience`
 
-2. Start with `build.sh` which wraps docker-compose :
+2. Start with `build.sh` (wraps docker-compose) :
 
 `$ ./build.sh --prod`
 
@@ -46,7 +47,7 @@ b) [Git](https://git-scm.com/downloads)
 
 `$ docker-compose down --rmi all`
 
-2. Delete copy of repository:
+2. Delete repository:
 
 `$ cd .. && rm -r sentience`
 
@@ -64,7 +65,7 @@ Yazan Obeidi
 
 ## Copyright
 
-Yazan Obeidi, 2017
+Yazan Obeidi, 2017-2018
 
 ## Licence
 
