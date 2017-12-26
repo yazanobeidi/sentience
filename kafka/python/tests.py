@@ -18,6 +18,10 @@ import time
 from kafka.python.kafka import Kafka
 from src.python.utils.boilerplate import init_config_and_log
 
+__author__ = 'yazan'
+__version__ = '0.0.1'
+__licence__ = 'Apache V2'  
+
 def test_kafka_admin(kafka, log):
     topics = kafka.list_topics()
     log.info("{} topics found: {}".format(len(topics), topics))

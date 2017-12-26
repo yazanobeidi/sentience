@@ -1,24 +1,21 @@
 sentience
 =========
 
-The application of weak AI towards highly specific and defined areas has had great recent success. However the tasks of data collection, cleansing, ingestion, modelling, evaluation, generating inferences, and updating the model with new information are all largely cumbersome manual processes, and at this point somewhat of an art rather than an exact science. Furthermore a unique learning architecture, dataset, and application must crafted for every newly posed problem.
+So far nobody has linked together the available building blocks for artificial general intelligence (AGI). These tools include Differentiable Neural Computers, Neural Programmer-Interpreters, and Deep Q-Networks. Together, a single entity that is capable of ingesting multiple types of data, audio and visual recognition, general problem solving, learning to learn, algorithm generation, creativity, and interdisciplinary knowledge integration, may be created, resulting in something sort of like in the movie Her.
 
-Many problems can be generalized to several core, or fundemental, problems, for example combinatorial optimization, constraint satisfaction and search. What if instead of manually crafting a unique solution for an individual problem, if this problem solving process could be generalized and learned by the given data. In other words instead of learning weights in a pre-defined architecture, if the archicture itself could be learned, as well as the weights, and then this knowledge shared across all domains.
+_Sentience_ is deployed using Docker as a microservices for each distinct aspect of the AGI:
 
-_Sentience_ attempts to solve the problem of problem solving by learning its own learning process. It does this by generating optimal architectures from competing candidates. Specifically a novel fully differentiable training and evaluation process named Meta Learning is proposed.
+1. Executor  
 
-Several simultaneous mechanisms support Meta Learning: 
+Executive functions and cognitive control. Appropriate behaviour selection and operation for goal achievement.  
 
-1. An evolutionary network-in-a-network(-in-a-network...) design to facilitate reinforcement learning through indirect coupling between all learning systems. Each sub-system is decoupled as a microservice and communicates using a messaging protocol. Apache Kafka is presently used. Each sub-system is sufficient so that it may carry out its own functionality independent of other sub-systems. However feedback and a type of entanglement between subsystems does occur as part of normal system behaviour, forming a sort of quasi-dependency with an indeterminate causality between nodes.
+2. Interactor  
 
-2. Application of Neural Turing Machines (NTM) to provide learned representational memory to drive Meta Learning processes. This process is regularized to prefer simpler representations. NTM memory provides short term and long term access and is the only place where state information is persisted in the system. This memory differs from the weights in a machine learning model in that memory cells within a NTM may define algorithmic functionality such as copying and sorting at its most basic level. This contrasts with simply modifying the output of a classifier by updating its underlying weights.
+Communications and interactions with others.
 
-3. A dictionary of models and hyperparameters with an ability to retrieve the most suitable architecture based on past experiences. A tunable number of candidate models are evaluated in a non-blocking fashion such that new optimal architectures may be identified. This may occur for a number of reasons including changing data, or a new model is evaluated which was not considered previously. Models currently are used from Scikit-Learn and Tensorflow. Pre-trained models, preset archicturectures, and learned architectures are all considered.
+3. Strategizer  
 
-4. Endpoints which do not rely on exposure to real-world for learning; a simulation of reality is included in this codebase to facilitate training through emulation. Later these endpoints may be attached to actual IO hardware interfaces for example a propulsion system, vision, touch and contact.
-
-5. Online learning is used when possible with the intent that dynamic effects are immediately resolved.
-
+Data aggregration, analysis, pattern recognition, forecasting, feeding to goal planning, definition of options, preferences, strategies, goals, contexts, and auxillary knowledge store.  
 
 ## Installation
 

@@ -21,5 +21,5 @@ __version__ = '0.0.1'
 __licence__ = 'Apache V2'    
 
 if __name__ == "__main__":
-    config, log = init_config_and_log(name="executor")
+    config, log = init_config_and_log()
     log.info("Starting Executor")
